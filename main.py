@@ -12,19 +12,25 @@ def send_sms_with_unique_values(file_path, sheet_name, column_index, message):
         first_column_value = row[column_index]
         Fname = row[1]
 
+        
+
 
 
         if first_column_value not in printed_values:
             # Replace placeholders in the message with row values
             formatted_message = message.format(*row)
-
+            
             def replace_first_number(data):
-                if len(data) > 0:
+                # Check if the first character is a digit
+                
+                    
+                if len(str(data))> 0:
                     # Convert the data to a list
                     data_list = list(data)
 
                     # Check if the first character is a digit
                     if data_list[0].isdigit():
+
                         # Replace the first character with '2' followed by '33'
                         data_list[0] = '2'
                         data_list.insert(1, '3')
@@ -34,10 +40,15 @@ def send_sms_with_unique_values(file_path, sheet_name, column_index, message):
                         replaced_data = ''.join(data_list)
 
                         return replaced_data
+            
                 return data
 
+                
+                    
             original_data = first_column_value
             ModNum_data = replace_first_number(original_data)
+            if ModNum_data == None:
+                continue
 
             # Send the SMS using the MNOTIFY API
 
@@ -55,7 +66,7 @@ def send_sms_with_unique_values(file_path, sheet_name, column_index, message):
             data = response.json()
 
             # print(data)
-            print(ModNum_data+ ' sent ' + data["status"] )
+            print(Fname+ ' ' +ModNum_data+ ' sent ' + data["status"] )
 
             # if response.status_code == 200:
             #     print("SMS sent successfully.")
@@ -66,7 +77,7 @@ def send_sms_with_unique_values(file_path, sheet_name, column_index, message):
             printed_values.add(first_column_value)
 
 # Example usage
-file_path = "F:\\JEAN FILES\\DOCUMENTS\\GEC CONTACT LL JULY.xlsx"
+file_path = "C:\\Users\\.Com\\Desktop\\New.xlsx"
 sheet_name = "Sheet1"
 column_index = 0
 message = "The values are: {}"
