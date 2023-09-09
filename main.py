@@ -53,11 +53,11 @@ def send_sms_with_unique_values(file_path, sheet_name, column_index, message):
             # Send the SMS using the MNOTIFY API
 
             endPoint = 'https://api.mnotify.com/api/sms/quick'
-            apiKey = 'LyoYyQPI2cmCQAPFuK1xN7UMd'
+            apiKey = ''
             data = {
                 'recipient[]': ModNum_data,
                 'sender': 'GEC Shalom',
-                'message': "Hello " + Fname + " "+ " Calvary greetings in the name of our Lord Jesus Christ. From the leadership of Global Evangelical Church Michel Camp, a Happy New Month to you. God has been so good ushering us into this second half of the year. We humbly invite you as our special guest to our special thanksgiving celebration to experience God's love and glory on 9th July, 2023 at 4:00pm at church auditorium. It is all about thanksgiving. We pray God keep and watch over you. Shalom!!!",
+                'message': "Hello " + Fname + " "+ " Calvary greetings in the name of our Lord Jesus Christ. ",
                 'is_schedule': False,
                 'schedule_date': ''
             }
@@ -77,7 +77,7 @@ def send_sms_with_unique_values(file_path, sheet_name, column_index, message):
             printed_values.add(first_column_value)
 
 # Example usage
-file_path = "C:\\Users\\.Com\\Desktop\\New.xlsx"
+file_path = "C:\\Users\\User\\Desktop\\New.xlsx"
 sheet_name = "Sheet1"
 column_index = 0
 message = "The values are: {}"
