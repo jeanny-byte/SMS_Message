@@ -1,51 +1,50 @@
-import openpyxl
+import csv
 import requests
 
-def send_sms_with_unique_values(file_path, sheet_name, column_index, message):
-    workbook = openpyxl.load_workbook(file_path)
-    sheet = workbook[sheet_name]
-
+def send_sms_with_unique_values(file_path, column_index):
     printed_values = set()
     logs = []
 
-    for row in sheet.iter_rows(values_only=True):
-        first_column_value = row[column_index]
-        Fname = row[1]
+    def replace_first_number(data):
+        # Check if the data is not empty and the first character is a digit
+        if data and str(data)[0].isdigit():
+            # Get the first character of the phone number
+            first_digit = str(data)[0]
 
-        if first_column_value not in printed_values:
+            # Replace the first digit with a valid prefix
+            if first_digit == '0':
+                replaced_data = '233' + str(data)[1:]
+            else:
+                replaced_data = '233' + str(data)
+
+            return replaced_data
+
+        return data
+
+    with open(file_path, 'r') as file:
+        reader = csv.reader(file)
+        header = next(reader)  # Skip the header row
+
+        for row in reader:
+            first_column_value = row[column_index]
+            firstname = row[1]  # Update the index to access the 'Fname' column
+            message = f"{firstname}, In His Presence 2024 is approaching. Get ready to groove, sing, and worship. Spread the word and invite your friends for a memorable time!"
+
+
+            ModNum_data = replace_first_number(first_column_value)
+            if ModNum_data is None:
+                continue
+
             # Replace placeholders in the message with row values
             formatted_message = message.format(*row)
 
-            def replace_first_number(data):
-                # Check if the first character is a digit
-                if len(str(data)) > 0:
-                    # Convert the data to a list
-                    data_list = list(data)
-
-                    # Check if the first character is a digit
-                    if data_list[0].isdigit():
-                        # Replace the first character with '2' followed by '33'
-                        data_list[0] = '2'
-                        data_list.insert(1, '3')
-                        data_list.insert(2, '3')
-
-                        # Convert the list back to a string
-                        replaced_data = ''.join(data_list)
-                        # Returned Data
-                        return replaced_data
-
-                return data
-
-            original_data = first_column_value
-            ModNum_data = replace_first_number(original_data)
-            if ModNum_data == None:
-                continue
-
             # Send the SMS using the MNOTIFY API
             endPoint = 'https://apps.mnotify.net/smsapi'
-            apiKey = 'Wdj7EExbzUdYPw4WAXb96jMcf'
-            url = endPoint + '?key=' + apiKey + '&to=' + ModNum_data + '&msg=' + formatted_message + '&sender_id=xxxxx'
+            apiKey = 'WdjdYPw4WAXb96jMcf'
+            url = endPoint + '?key=' + apiKey + '&to=' + ModNum_data + '&msg=' + formatted_message + '&sender_id=IHP24'  # Fix: Use formatted_message instead of message
             response = requests.get(url)
+            if response.status_code != 200:
+                print(f"Error in API request. Status Code: {response.status_code}")
 
             # Print the request status, number sent to, and message
             log = f"Status: {response.status_code}, Number: {ModNum_data}, Message: {formatted_message}"
@@ -68,9 +67,7 @@ def send_sms_with_unique_values(file_path, sheet_name, column_index, message):
         print("Log text file not saved.")
 
 # Example usage
-file_path = "ME.xlsx"
-sheet_name = "Sheet1"
+file_path = "IHP'24.csv"
 column_index = 0
-message = "{Fname}!, In His Presence 2024 is approaching. Get ready to groove, sing, and fellowship. Spread the word and invite your friends for a memorable time!"
 
-send_sms_with_unique_values(file_path, sheet_name, column_index, message)
+send_sms_with_unique_values(file_path, column_index)
