@@ -28,8 +28,7 @@ def send_sms_with_unique_values(file_path, column_index):
         for row in reader:
             first_column_value = row[column_index]
             firstname = row[1]  # Update the index to access the 'Fname' column
-            message = f"{firstname}, In His Presence 2024 is approaching. Get ready to groove, sing, and worship. Spread the word and invite your friends for a memorable time!"
-
+            message = f"{firstname}, IHP24 is 17hrs away. Come let's worship the Lord with our songs and dance. Visit https://bit.ly/ihp_24 for the program outline"
 
             ModNum_data = replace_first_number(first_column_value)
             if ModNum_data is None:
@@ -40,7 +39,7 @@ def send_sms_with_unique_values(file_path, column_index):
 
             # Send the SMS using the MNOTIFY API
             endPoint = 'https://apps.mnotify.net/smsapi'
-            apiKey = 'WdjdYPw4WAXb96jMcf'
+            apiKey = 'Wdj7EExbzUdYPw4WAXb96jMcf'
             url = endPoint + '?key=' + apiKey + '&to=' + ModNum_data + '&msg=' + formatted_message + '&sender_id=IHP24'  # Fix: Use formatted_message instead of message
             response = requests.get(url)
             if response.status_code != 200:
