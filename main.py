@@ -28,7 +28,7 @@ def send_sms_with_unique_values(file_path, column_index):
         for row in reader:
             first_column_value = row[column_index]
             firstname = row[1]  # Update the index to access the 'Fname' column
-            message = f"{firstname}, IHP24 is 17hrs away. Come let's worship the Lord with our songs and dance. Visit https://bit.ly/ihp_24 for the program outline"
+            message = f"{firstname}, IHP24 is 5hrs away. Come let's worship the Lord with our songs and dance. Visit https://ihpresence.com/register to reserve a seat"
 
             ModNum_data = replace_first_number(first_column_value)
             if ModNum_data is None:
